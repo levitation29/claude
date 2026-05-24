@@ -63,6 +63,7 @@ sequential-fixes
 rewrite  
 otf  
 do_acid  
+trim_for_preferences
 
 **Workers**
 
