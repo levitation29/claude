@@ -1,0 +1,89 @@
+what /mnt dirs are available to me
+
+Claude responded: 
+Four dirs under /mnt:
+
+/mnt/project — empty
+/mnt/skills — skill definitions (public, private, examples, user)
+/mnt/transcripts — conversation transcripts
+/mnt/user-data
+
+what is the difference between those 4 dirs. when are they used. What is visible or writeable by other chats
+
+#********************
+/mnt/user-data/ — your files, this session
+Cross-chat visibility: no — each conversation gets its own isolated instance
+
+uploads/ — files you drag into chat; read-only to me, scoped to this conversation
+outputs/ — where I write files you can download; writable
+tool_results/ — internal scratch used by tools
+
+#********************
+/mnt/skills/ — behavior instructions, injected by Anthropic/your org
+Writable in principle but don't write here — changes won't persist across sessions and could corrupt skill definitions
+Cross-chat visibility: yes — same skills are mounted in every chat in your account/org
+
+public/ — Anthropic-provided skills (docx, pdf, xlsx, etc.)
+user/ — your org's custom skills (e.g. google-cpp-style)
+examples/ — example/template skills
+
+
+#********************
+/mnt/transcripts/ — read-only, currently empty
+Intended to hold past conversation transcripts when that feature is active
+Read-only filesystem — nothing can write here
+Cross-chat visibility: potentially yes (shared read access), but empty right now
+
+#********************
+/mnt/project/ — writable, currently empty
+This is your project-scoped shared storage — files here persist across chats within the same Claude project
+This is the one dir where work genuinely survives between sessions within a project
+Cross-chat visibility: yes, within the same project
+
+
+#********************
+Summary of cross-chat persistence:
+Dir               Writable        Persists_across_chats
+/mnt/user-data/   outputs yes     No — per-conversation
+/mnt/skills/      technically yes No — read from config
+/mnt/transcripts/ No              Read-only
+/mnt/project/     Yes             Yes — within project
+
+
+can I force you to always present files you modify, to be in /mnt/project
+
+Claude responded: 
+
+You can't force it at the filesystem level — I can write anywhere that's writable, and there's no mount-level redirect. 
+But you can get the same effect two ways:
+
+1. User Preferences instruction (what you already have)
+Add something like:
+"Always save output files to /mnt/project/ instead of /mnt/user-data/outputs/. Always call present_files after modifying any file in /mnt/project/."
+That's a standing instruction I'll follow in every chat in this project. 
+It's not enforced mechanically but it's reliable.
+
+2. Per-session reminder
+Just tell me at the start of a chat: "work in /mnt/project today." I'll follow it for the session.
+
+#*************************************************************************
+No — user preferences apply account-wide, but the /mnt/project/ mount is project-specific. If I tried to write to /mnt/project/ in a chat outside this project, that path either won't exist or will be a different project's directory.
+
+So the constraint is the filesystem, not the instruction system:
+
+Context	Instruction followable	/mnt/project/ available
+This project	Yes	Yes
+Another project	           Yes	Yes, but different dir
+No project (plain chat)	   Yes	Likely empty/absent
+
+What you can do globally: Add a preference like:
+"Always save output files to /mnt/project/ if it exists and is writable, otherwise fall back to /mnt/user-data/outputs/. Always call present_files after modifying any file."
+
+That works everywhere — I check, use /mnt/project/ when available, fall back gracefully when not. The present_files part applies universally regardless.
+
+Here's text you can paste into Settings → Profile → User Preferences:Here's text you can paste into Settings → Profile → User Preferences:
+
+"Always save output files to /mnt/project/ if it exists and is writable, otherwise fall back to /mnt/user-data/outputs/. Always call present_files after creating or modifying any file."
+
+Short, unambiguous, works in all contexts.
+#*************************************************************************
