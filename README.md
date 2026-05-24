@@ -1,4 +1,5 @@
-# claude
+**My Claude.ai stuff**
+
 do_acid will work with just command_2.notes or command_2_preferences.notes
 but the full ACID protocol needs claude_acid_2.notes
 I'm going to update the do_acid in command_2.notes to get claude_acid_2.notes from this repo if not findable in a current claude chat.
@@ -12,13 +13,14 @@ I may reduce these as I understand what I really ant
 
 From your preferences (I copy/paste the contents of command_2_preferences.notes into my account preference text box)
 every defined shortcut in command_2*
-Describe
+
+**Describe**
 
 describe-behavior
 describe-structure
 describe-structure-deep
 
-Plan
+**Plan**
 
 plan-review-api
 plan-simplify-silent
@@ -26,7 +28,7 @@ simplify-plan
 simplify-plan-deeper
 plan-score
 
-Filesystem
+**Filesystem**
 
 showskillfs
 showtranscriptfs
@@ -41,7 +43,7 @@ touch_chat_start
 chat_time
 session_time_header
 
-Output modifiers
+**Output modifiers**
 
 dont_narrate_fixes
 skip_post-round_summary
@@ -51,7 +53,7 @@ showmeall
 jump-to-bottom
 cleanstop
 
-Single-shot
+**Single-shot**
 
 review
 linesme
@@ -62,7 +64,7 @@ rewrite
 otf
 do_acid
 
-Workers
+**Workers**
 
 fix-silent
 fix-broad-silent
@@ -74,13 +76,13 @@ schema-update-silent
 fix-rewrite-silent
 fix-rewrite-keepcomments-silent
 
-Counters
+**Counters**
 
 session_counts
 session_counts_header
 session_counts_resync T C
 
-Pipeline families
+**Pipeline families**
 
 fix
 broad
